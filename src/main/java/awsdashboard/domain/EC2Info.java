@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.Instant;
+import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
 import software.amazon.awssdk.services.ec2.model.*;
 
@@ -15,16 +16,16 @@ public class EC2Info {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
-    private String imageID;
-    private String imageName;
+    //TODO: Link imageId to a given Image (Map from output of #DescribeImages)
+    private String imageId;
     private String instanceId;
-    private String instanceName;
+    private Optional<String> instanceName;
     private InstanceType instanceType;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Instant launchTime;
     private String privateIpAddress;
-    private String publicDnsName;
-    private String publicIpAddress;
+    private Optional<String> publicDnsName;
+    private Optional<String> publicIpAddress;
     private Region region;
     private InstanceState state;
     private List<Tag> tags;
@@ -32,8 +33,26 @@ public class EC2Info {
     public EC2Info() {}
 
     public EC2Info(Instance EC2Instance, Region region) {
-
         this.region = region;
-        //EC2Instance.
+        imageId = EC2Instance.imageId();
+        instanceId = EC2Instance.instanceId();
+        instanceType = EC2Instance.instanceType();
+        launchTime = EC2Instance.launchTime();
+        privateIpAddress = EC2Instance.privateIpAddress();
+        publicDnsName = Optional.of(EC2Instance.publicDnsName());
+        publicIpAddress = Optional.of(EC2Instance.publicIpAddress());
+        state = EC2Instance.state();
+        tags = EC2Instance.tags();
+        instanceName = findInstanceNameInTags();
+    }
+
+    private Optional<String> findInstanceNameInTags() {
+        Optional<Tag> nameTag = tags.stream().filter(a -> a.key().equals("Name")).findFirst();
+
+        String instanceName = null;
+        if (nameTag.isPresent()) {
+            instanceName = nameTag.get().value();
+        }
+        return Optional.ofNullable(instanceName);
     }
 }
