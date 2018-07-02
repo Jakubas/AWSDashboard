@@ -27,7 +27,7 @@ public class EC2Info {
     private Optional<String> publicDnsName;
     private Optional<String> publicIpAddress;
     private Region region;
-    private InstanceState state;
+    private InstanceStateName stateName;
     private List<Tag> tags;
 
     public EC2Info() {}
@@ -41,9 +41,13 @@ public class EC2Info {
         privateIpAddress = EC2Instance.privateIpAddress();
         publicDnsName = Optional.of(EC2Instance.publicDnsName());
         publicIpAddress = Optional.of(EC2Instance.publicIpAddress());
-        state = EC2Instance.state();
+        stateName = EC2Instance.state().name();
         tags = EC2Instance.tags();
         instanceName = findInstanceNameInTags();
+    }
+
+    public Optional<String> getInstanceName() {
+        return instanceName;
     }
 
     private Optional<String> findInstanceNameInTags() {
