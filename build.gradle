@@ -14,7 +14,7 @@ apply plugin: 'org.springframework.boot'
 
 jar {
     baseName = 'aws-dashboard'
-    version =  '0.0.0.pre'
+    version =  '0.1.0.pre'
 }
 
 repositories {
@@ -28,6 +28,6 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("mysql:mysql-connector-java")
-    compile("software.amazon.awssdk:ec2:2.0.0-preview-1")
+    compile("software.amazon.awssdk:ec2:2.0.0-preview-10")
     testCompile("junit:junit")
 }
