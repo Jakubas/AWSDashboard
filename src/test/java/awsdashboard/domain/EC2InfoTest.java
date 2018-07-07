@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 import software.amazon.awssdk.services.ec2.model.*;
 
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class EC2InfoTest {
 
     @Test
-    public void create_withNoNameTagOnInstance() {
+    public void create_withNoNameTag() {
         EC2Info ec2Info = new EC2Info(mockInstance(), mockRegion());
         assertNotNull(ec2Info);
         assertEquals(ec2Info.getInstanceName(), Optional.empty());

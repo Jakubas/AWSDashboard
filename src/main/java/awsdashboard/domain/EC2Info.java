@@ -8,25 +8,33 @@ import javax.persistence.Id;
 import java.time.Instant;
 import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
-import software.amazon.awssdk.services.ec2.model.*;
+import software.amazon.awssdk.services.ec2.model.Tag;
+import software.amazon.awssdk.services.ec2.model.Region;
+import software.amazon.awssdk.services.ec2.model.Instance;
+import software.amazon.awssdk.services.ec2.model.InstanceType;
+import software.amazon.awssdk.services.ec2.model.InstanceStateName;
 
 @Entity
+//Given an EC2Instance it will extract info about the instance
 public class EC2Info {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int id;
+    private String instanceId;
+
     //TODO: Link imageId to a given Image (Map from output of #DescribeImages)
     private String imageId;
-    private String instanceId;
     private Optional<String> instanceName;
     private InstanceType instanceType;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Instant launchTime;
+
     private String privateIpAddress;
     private Optional<String> publicDnsName;
     private Optional<String> publicIpAddress;
+
     private Region region;
+
     private InstanceStateName stateName;
     private List<Tag> tags;
 
