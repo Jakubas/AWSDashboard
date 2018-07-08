@@ -2,20 +2,18 @@ package awsdashboard.domain;
 
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.Instant;
 import java.util.Optional;
 import org.springframework.format.annotation.DateTimeFormat;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ec2.model.Tag;
-import software.amazon.awssdk.services.ec2.model.Region;
 import software.amazon.awssdk.services.ec2.model.Instance;
 import software.amazon.awssdk.services.ec2.model.InstanceType;
 import software.amazon.awssdk.services.ec2.model.InstanceStateName;
 
 @Entity
-//Given an EC2Instance it will extract info about the instance
+//Given an Instance it will extract info about the instance
 public class EC2Info {
 
     @Id
@@ -40,17 +38,17 @@ public class EC2Info {
 
     public EC2Info() {}
 
-    public EC2Info(Instance EC2Instance, Region region) {
+    public EC2Info(Instance instance, Region region) {
         this.region = region;
-        imageId = EC2Instance.imageId();
-        instanceId = EC2Instance.instanceId();
-        instanceType = EC2Instance.instanceType();
-        launchTime = EC2Instance.launchTime();
-        privateIpAddress = EC2Instance.privateIpAddress();
-        publicDnsName = Optional.of(EC2Instance.publicDnsName());
-        publicIpAddress = Optional.of(EC2Instance.publicIpAddress());
-        stateName = EC2Instance.state().name();
-        tags = EC2Instance.tags();
+        imageId = instance.imageId();
+        instanceId = instance.instanceId();
+        instanceType = instance.instanceType();
+        launchTime = instance.launchTime();
+        privateIpAddress = instance.privateIpAddress();
+        publicDnsName = Optional.of(instance.publicDnsName());
+        publicIpAddress = Optional.of(instance.publicIpAddress());
+        stateName = instance.state().name();
+        tags = instance.tags();
         instanceName = findInstanceNameInTags();
     }
 
