@@ -1,14 +1,21 @@
 package awsdashboard.domain;
 
 import org.junit.Test;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Optional;
-import software.amazon.awssdk.services.ec2.model.*;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.ec2.model.Instance;
+import software.amazon.awssdk.services.ec2.model.InstanceState;
+import software.amazon.awssdk.services.ec2.model.InstanceType;
+import software.amazon.awssdk.services.ec2.model.Tag;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class EC2InfoTest {
 
@@ -16,7 +23,7 @@ public class EC2InfoTest {
     public void create_withNoNameTag() {
         EC2Info ec2Info = new EC2Info(mockInstance(), mockRegion());
         assertNotNull(ec2Info);
-        assertEquals(ec2Info.getInstanceName(), Optional.empty());
+        assertEquals(Optional.empty(), ec2Info.getInstanceName());
     }
 
     @Test

@@ -47,7 +47,7 @@ public class AwsClientImpl implements AwsClient {
             List<Instance> instances = reservation.instances();
             for (Instance instance: instances) {
 
-                EC2Info ec2Info = new EC2Info(instance, settings.getRegion());
+                //EC2Info ec2Info = new EC2Info(instance, settings.getRegion());
             }
         }
         //ec2infos.add()
